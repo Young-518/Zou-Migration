@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="邹氏迁徙 WebGIS 数字人文平台——三地图联动呈现邹氏千年迁徙史与双洲邹氏一族一村的时空脉络，数据据《全国邹氏历史迁徙调查报告》与《雙洲鄒氏族譜注》。">
+<meta property="og:title" content="邹氏迁徙 WebGIS 数字人文平台">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zou-migration-webgis.app.workbuddy.host/">
+<meta property="og:image" content="https://zou-migration-webgis.app.workbuddy.host/img/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://zou-migration-webgis.app.workbuddy.host/">
+<script>(function(){var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;var m0=/[?&]motion=0/.test(location.search),m1=/[?&]motion=1/.test(location.search);var s=null;try{s=localStorage.getItem('zou-motion')}catch(e){}var off=m0?true:(m1?false:(s?s==='off':reduce));if(off)document.documentElement.classList.add('no-veil')})();</script>
+<meta property="og:description" content="姓源考辨 · 千年播迁 · 一族一村——历史政区叠加 × 世系树联动 × 迁徙动画">
+<title>邹氏迁徙 WebGIS · 数字人文平台</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%238a5a2b'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23fff' font-family='serif'%3E邹%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="js/vendor/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/migration.css">
+<link rel="stylesheet" href="css/scroll-story.css">
+<link rel="stylesheet" href="css/poems.css">
+<link rel="stylesheet" href="css/font-msz.css">
+<link rel="stylesheet" href="css/design.css">
+<link rel="stylesheet" href="css/showcase.css">
+</head>
+<body>
+
+<!-- ===== v3.6 开场印幕:落章 + 揭幕(纯 CSS,约 2.4s;reduced-motion/?motion=0/打印自动收起) ===== -->
+<!--#include file="sections/01-veil.html" -->
+
+<!-- ===== 章节导航：sticky 56px + 滚动进度 ===== -->
+<nav class="chapnav" id="chapnav" aria-label="章节导航">
+ <div class="inner">
+ <span class="brand">邹氏迁徙</span>
+ <div class="links" id="chapLinks">
+ <a href="#secOriginHead" data-ch="secOrigin">01 姓源</a>
+ <a href="#secAtlasHead" data-ch="secAtlas">02 迁徙图谱</a>
+ <a href="#secMacroHead" data-ch="secMacro">03 全国路线</a>
+ <a href="#secChainHead" data-ch="sceneChain">04 本支七站</a>
+ <a href="#secMicroHead" data-ch="sceneMicro">05 双洲微观</a>
+ <a href="#secAppendix" data-ch="secAppendix">06 方法与附录</a>
+ </div>
+ <span class="note">v3.6.6 · 33 段记载路线</span>
+ <button class="toggle" id="btnTools" type="button" aria-expanded="false" aria-controls="startPanel">工具</button>
+ <button class="toggle" id="btnQuick" type="button" aria-pressed="false" title="只保留 01 姓源、03 全国路线、05 双洲三段">速览</button>
+ <button class="toggle" id="chapToggle" type="button" aria-expanded="false">目录</button>
+ <div class="bar" id="chapProgress"></div>
+ </div>
+</nav>
+<div class="startpanel" id="startPanel" hidden>
+ <div class="wrap">
+ <div class="viewbar">
+ <span class="lab">三窗联动：</span>
+ <button id="btnFocusMacro" aria-label="定位到一号地图：全国宏观">① 全国宏观</button>
+ <button id="btnFocusChain" aria-label="定位到二号地图：本支迁徙链">② 本支迁徙链</button>
+ <button id="btnFocusMicro" aria-label="定位到三号地图：双洲微观">③ 双洲微观</button>
+ <span class="search-wrap">
+ <input type="search" id="searchBox" placeholder="搜索地名 / 先祖 / 八景（如：宜黄、有宗公、三江远渡）" autocomplete="off" aria-label="搜索地名、先祖或八景">
+ <div id="searchResults" class="search-results" hidden></div>
+ </span>
+ <button id="btnShareLink" title="复制包含当前阶段与图层状态的直达链接">复制本视图链接</button>
+ </div>
+ <p class="startpanel-tip">左侧控制面板作用于对应地图窗口；时间轴为独占模式（只显示当前阶段）；世系树与③号窗口双向联动；地图聚焦后 Shift+←/→ 切换阶段。</p>
+ </div>
+</div>
+
+<!-- ===== v3.6.3 卷轴钉住段（用户构想：绸带「族谱」+ 立轴下展；选定方案 B）：
+     印幕揭开后钉住一屏，向下滚动绸带解开、立轴徐徐放卷，卷内谱名「鄒氏遷徙」即页面 h1；
+     展开完成后解除钉住，自然衔接下方首屏。轴杆与绸带为装饰（读屏跳过），打印整段跳过。 ===== -->
+<div class="reel-zone" id="scrollReel">
+ <div class="reel-stage">
+  <div class="reel-paper">
+   <div class="reel-ling" aria-hidden="true"></div>
+   <div class="reel-texture" aria-hidden="true"></div>
+   <div class="reel-text">
+    <h1 class="reel-title">鄒氏遷徙</h1>
+    <p class="reel-sub">一部家族檔案 · 據《雙洲鄒氏族譜注》</p>
+    <div class="reel-seal" aria-hidden="true">鄒</div>
+    <a class="reel-cta" href="#heroBoard">开始探索 ↓</a>
+   </div>
+   <div class="reel-ling b" aria-hidden="true"></div>
+  </div>
+  <div class="reel-rodT" aria-hidden="true"></div>
+  <div class="reel-rodB" aria-hidden="true">
+   <span class="rb-front"></span><span class="rb-knot"></span>
+   <span class="rb-tail l"></span><span class="rb-tail r"></span>
+   <span class="rb-tag">族谱</span>
+  </div>
+  <span class="reel-mark" aria-hidden="true">鄒氏遷徙 · 譜牒檔案</span>
+  <button id="reelCue" class="reel-cue" type="button">向下滚，展开手卷 ↓</button>
+ </div>
+</div>
+
+
+<!-- ===== 首屏：二乘二版面（v2.8 · 方向 editorial-report） ===== -->
+<!--#include file="sections/02-hero.html" -->
+
+<!-- ===== v3.6 宣言屏(blueyard 式一屏一句)+ 底部走马灯 ===== -->
+<!--#include file="sections/03-manifesto.html" -->
+
+<!-- ===== 改造探索·迁路长卷(ScrollTrigger scrub 驱动七站六段) ===== -->
+<!--#include file="sections/05-journey.html" -->
+
+<main class="wrap">
+
+<!-- ===== v3.6.4 分卷示范:01 姓源考开卷(其余各章按同一组件复用接入) ===== -->
+<!--#include file="sections/26-extra-01.html" -->
+
+<!-- ===== 01 姓源：分布热区 ===== -->
+<!--#include file="sections/26-extra-02.html" -->
+ <!--#include file="sections/10-origin.html" -->
+ <!--#include file="sections/11-heat.html" -->
+
+ <!-- ===== 过渡带：姓源五支 · 从分布到迁徙（已移出 sticky，避免被裁切） ===== -->
+ <!--#include file="sections/12-bridge.html" -->
+
+ <!-- ===== 02 迁徙图谱：四联 ECharts ===== -->
+ <!--#include file="sections/13-stat.html" -->
+
+ <!-- ===== v3.6.5 分卷:圖譜考开卷 ===== -->
+<!--#include file="sections/26-extra-03.html" -->
+
+<!--#include file="sections/26-extra-04.html" -->
+ <!--#include file="sections/26-extra-05.html" -->
+ <!--#include file="sections/14-atlas.html" -->
+
+ <!-- ===== 03 全国路线：① 号宏观图 ===== -->
+ <!-- ===== v3.6.5 分卷:路線考开卷 ===== -->
+<!--#include file="sections/26-extra-06.html" -->
+
+<!--#include file="sections/26-extra-07.html" -->
+ <!--#include file="sections/15-macro.html" -->
+
+
+ <!-- ===== 03 附：阶段图例 + 名人堂（移出钉住场景，避免被裁） ===== -->
+ <!--#include file="sections/26-extra-08.html" -->
+
+ <!-- ===== 04 本支七站 ===== -->
+ <!--#include file="sections/26-extra-09.html" -->
+ <!-- ===== v3.6.5 分卷:站程考开卷 ===== -->
+<!--#include file="sections/26-extra-10.html" -->
+
+<!--#include file="sections/26-extra-11.html" -->
+ <!--#include file="sections/16-chain.html" -->
+
+ <!--#include file="sections/26-extra-12.html" -->
+
+ <!-- ===== 第三行：世系树/村落面板（左） + ③ 号地图（右） ===== -->
+ <!-- ===== 05 双洲微观 ===== -->
+ <!-- ===== v3.6.5 分卷:雙洲考开卷 ===== -->
+<!--#include file="sections/26-extra-13.html" -->
+
+<!--#include file="sections/26-extra-14.html" -->
+ <!--#include file="sections/17-micro.html" -->
+
+ <!-- 05 附：世系树 / 村落 / 八景（移出钉住场景，避免被裁） -->
+ <!--#include file="sections/26-extra-15.html" -->
+
+
+ <!-- ===== 诗卷抽屉（双洲八景 · 古今对读） ===== -->
+ <!--#include file="sections/26-extra-16.html" -->
+
+ <!-- ===== 谱序长卷：五次修谱 ===== -->
+ <!-- ===== 05 附：八景书版（方向单第 5 板块「gallery」，缺实景图，先以书版充） ===== -->
+ <!--#include file="sections/26-extra-17.html" -->
+ <!--#include file="sections/18-bajing.html" -->
+
+ <!-- ===== 古文三则（摘录读本） ===== -->
+ <!--#include file="sections/19-text.html" -->
+ <!--#include file="sections/20-poems.html" -->
+
+<!-- ===== v3.6.5 分卷:06 方法考开卷 ===== -->
+<!--#include file="sections/26-extra-18.html" -->
+
+<!-- ===== 06 方法与附录 ===== -->
+<!--#include file="sections/26-extra-19.html" -->
+ <!--#include file="sections/21-tools.html" -->
+
+ <!--#include file="sections/22-zibei.html" -->
+
+ <!-- ===== 页底：时空路径剖面 ===== -->
+ <!--#include file="sections/23-spacetime.html" -->
+
+ <!-- ===== 页底：参考文献（GB/T 7714—2015） ===== -->
+ <!--#include file="sections/24-references.html" -->
+
+ <!-- ===== 页底：资料面板平铺 ===== -->
+ <!--#include file="sections/25-panels.html" -->
+
+ <!-- ===== 页底：坐标精度与待考点位 ===== -->
+ <!--#include file="sections/26-extra-20.html" -->
+
+ <!-- ===== 页底：字辈诗 · 世代对照 ===== -->
+
+</main>
+
+<!-- ===== 改造探索·迁徙星图(收束幕:七曜星轨+数字滚动) ===== -->
+<!--#include file="sections/29-starfield.html" -->
+
+<!--#include file="sections/30-footer.html" -->
+
+<div id="layerStaging" hidden data-vue-island="layer-panel"></div>
+
+<nav class="phone-bar" id="phoneBar" aria-label="手机端章节跳转">
+ <a href="#heroBoard">卷首</a>
+ <a href="#secOriginHead">01 姓源</a>
+ <a href="#secAtlasHead">02 图谱</a>
+ <a href="#secMacroHead">03 路线</a>
+ <a href="#secChainHead">04 七站</a>
+ <a href="#secMicroHead">05 双洲</a>
+ <a href="#secAppendix">06 附录</a>
+</nav>
+
+<div id="app"></div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

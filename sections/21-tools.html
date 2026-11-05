@@ -1,0 +1,22 @@
+<section class="bottom-wide panel" id="toolPanel">
+ <h3>底图与导出</h3>
+
+ <div class="panel-tools" style="margin-top:0;padding-top:0">
+ <p class="pt-cap">底图</p>
+ <div class="seg-row" id="basemapSeg" role="group" aria-label="底图选择">
+ <button type="button" class="seg-btn on" data-base="gaode" aria-pressed="true">高德</button>
+ <button type="button" class="seg-btn" data-base="osm" aria-pressed="false">OSM</button>
+ <button type="button" class="seg-btn" data-base="none" aria-pressed="false">无底图</button>
+ </div>
+ <p class="pt-note" id="basemapNote">高德瓦片偶发 404 时会自动切到 OSM；天地图需自备 key，未接入。</p>
+
+ <p class="pt-cap" style="margin-top:12px">导出（学术留档）</p>
+ <div class="seg-row">
+ <button type="button" class="seg-btn" id="btnExpGeo">GeoJSON</button>
+ <button type="button" class="seg-btn" id="btnExpCsv">分段 CSV</button>
+ <button type="button" class="seg-btn" id="btnExpPng">图版 PNG</button>
+ </div>
+ <p class="pt-note" id="exportMsg" aria-live="polite">数据来源与口径见页脚与 06 附录。</p>
+ </div>
+ <p class="panel-note">GeoJSON 含全国路线与本支链，坐标 WGS84；分段 CSV 与页内「分段里程与七站清单」同源；PNG 取当前可见图版（2 倍像素）。</p>
+ </section>
