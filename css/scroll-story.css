@@ -1,0 +1,373 @@
+/* ============================================================
+ * css/scroll-story.css —— 滚动叙事层（v2.0）
+ * 场景 03 钉住 + 年表尺 / 场景 04 横向路引 / HUD / 进度轴 / 速览模式
+ * 动效只用 transform / opacity / clip-path；不劫持滚轮。
+ * ============================================================ */
+
+/* ---------- HUD（左下） ---------- */
+.story-hud{position:fixed;left:18px;bottom:18px;z-index:70;pointer-events:none;
+  opacity:0;visibility:hidden;transition:opacity .25s
+  background:rgba(10,16,24,.78);border:1px solid rgba(200,161,101,.45);border-radius:4px;
+  padding:8px 12px;color:#e9d6ae;font-size:11px;letter-spacing:.08em;line-height:1.5;
+  backdrop-filter:blur(6px);min-width:132px}
+.story-hud .hud-ch{display:block;font-size:9.5px;color:#8fa3b8;letter-spacing:.22em}
+.story-hud b{display:block;font-family:var(--font-serif);font-size:20px;line-height:1.2;
+  color:#ffd27a;font-variant-numeric:tabular-nums}
+.story-hud .hud-place{display:block;font-size:10.5px;color:#c9d8e6}
+
+/* ---------- 右侧手卷进度轴 ---------- */
+.story-axis{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:70;
+  display:none;flex-direction:column;gap:9px;padding:10px 7px;border-radius:999px;
+  background:rgba(246,240,227,.92);border:1px solid var(--line);
+  box-shadow:0 4px 16px rgba(33,27,20,.08);backdrop-filter:blur(6px)}
+.story-axis a{display:flex;align-items:center;justify-content:center;text-decoration:none;
+  color:#7b7366;font-size:10.5px;opacity:.75;width:14px;height:14px}
+.story-axis a i{width:8px;height:8px;border-radius:50%;border:1px solid var(--gold);
+  background:transparent;transition:transform .2s,background .2s}
+.story-axis a b,.story-axis a span{display:none}
+.story-axis a.on{opacity:1;color:var(--bronze)}
+.story-axis a.on i{background:var(--gold);transform:scale(1.35);
+  box-shadow:0 0 8px rgba(200,161,101,.7)}
+@media (min-width:1200px){ .story-axis{display:flex} }
+
+/* ---------- 动效开关 ---------- */
+.motion-toggle{margin-left:10px;border:1px solid var(--line);background:#fffdf6;
+  color:var(--ink-2);font:inherit;font-size:11.5px;padding:4px 10px;border-radius:6px;
+  cursor:pointer;white-space:nowrap}
+.motion-toggle:hover{border-color:var(--gold);color:var(--bronze)}
+.motion-toggle[aria-pressed="false"]{background:#f0ece0;color:var(--muted)}
+
+/* ---------- 场景基础 ---------- */
+.scene{position:relative}
+.scene-pin{height:240vh}
+.scene-pin .scene-sticky{position:sticky;top:76px;
+  height:calc(100vh - 96px);display:flex;align-items:flex-start;overflow:hidden}
+.scene-pin .map-row{margin:0;width:100%}
+.scene-pin .card-macro{position:sticky;top:0;align-self:start;
+  height:calc(100vh - 96px);display:flex;flex-direction:column}
+.scene-pin .card-macro .map{flex:1;min-height:0}
+
+/* 左侧四段读图 */
+.macro-steps{display:flex;flex-direction:column;gap:8px;margin:0 0 10px}
+.macro-step{position:relative;border-left:3px solid var(--line);padding:8px 10px;
+  background:#fdfaf3;border-radius:0 8px 8px 0;opacity:.55;
+  transition:opacity .3s,border-color .3s,background .3s}
+.macro-step h4{margin:0 0 2px;font-size:13.5px;font-family:var(--font-serif);color:var(--ink)}
+.macro-step p{margin:0;font-size:11.5px;color:var(--ink-2);line-height:1.65}
+.macro-step em{font-style:normal;color:var(--bronze);font-weight:700;margin-right:6px}
+.macro-step.on{opacity:1;border-left-color:var(--bronze);background:#fff8e9;
+  box-shadow:0 2px 12px rgba(138,90,43,.08)}
+
+/* 地图右下“公元”大字 */
+.macro-year{position:absolute;right:16px;bottom:44px;z-index:420;pointer-events:none;
+  font-family:var(--font-serif);font-size:15px;letter-spacing:.1em;color:#5a4a33;
+  background:rgba(255,251,240,.86);border:1px solid rgba(200,161,101,.55);
+  border-radius:4px;padding:4px 10px}
+.macro-year b{font-size:20px;color:var(--bronze);font-variant-numeric:tabular-nums}
+
+/* 年表尺 */
+.year-ruler{margin-top:8px}
+.year-ruler .yr-head{display:flex;justify-content:space-between;font-size:10.5px;
+  color:var(--muted);margin-bottom:2px}
+.year-ruler input[type=range]{width:100%;accent-color:var(--bronze);margin:2px 0}
+.year-ruler .yr-ticks{display:flex;justify-content:space-between;font-size:9px;
+  color:var(--muted);letter-spacing:.02em}
+.year-ruler .yr-ticks span{position:relative;padding-top:4px}
+.year-ruler .yr-ticks span::before{content:"";position:absolute;left:50%;top:0;
+  width:1px;height:3px;background:var(--line)}
+
+/* ---------- 场景 04：横向路引 ---------- */
+.scene-h{height:260vh}
+.scene-h .scene-sticky{position:sticky;top:76px;height:calc(100vh - 96px);
+  display:grid;grid-template-columns:45fr 55fr;gap:14px;overflow:hidden}
+.scene-h .chain-map{margin:0;height:100%}
+.scene-h .chain-map .map-card{height:100%;display:flex;flex-direction:column}
+.scene-h .chain-map .map{flex:1;min-height:0}
+.chain-track-wrap{position:relative;height:100%;overflow:hidden;
+  background:linear-gradient(180deg,#fdfaf3,#f7f1e4);border:1px solid var(--line);
+  border-radius:10px;padding:12px 0 52px}
+.chain-track{display:flex;gap:14px;padding:4px 18px;height:100%;align-items:center;will-change:transform}
+.track-card{flex:0 0 clamp(230px,26vw,320px);background:#fffdf6;border:1px solid var(--line);
+  border-radius:10px;padding:14px 16px;box-shadow:0 4px 16px rgba(50,38,20,.06);
+  opacity:.6;transform:scale(.97);transition:opacity .3s,transform .3s,border-color .3s;
+  display:flex;flex-direction:column;gap:6px}
+.track-card.on{opacity:1;transform:scale(1);border-color:var(--gold);
+  box-shadow:0 8px 26px rgba(138,90,43,.14)}
+.track-card .tc-no{font-family:var(--font-serif);font-size:12.5px;color:var(--bronze);
+  letter-spacing:.12em}
+.track-card h4{margin:0;font-size:17px;font-family:var(--font-serif);color:var(--ink)}
+.track-card .tc-year{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.track-card .tc-note{margin:2px 0 0;font-size:12.5px;line-height:1.72;color:var(--ink-2);
+  flex:1}
+.track-card .tc-dist{font-size:11.5px;color:var(--bronze);border-top:1px dashed var(--line);
+  padding-top:5px}
+.track-card .tc-stamp{margin-top:4px;border:1px solid var(--gold);background:#fff;
+  color:var(--bronze);font:inherit;font-size:12px;padding:6px 12px;border-radius:6px;
+  cursor:pointer;align-self:flex-start}
+.track-card .tc-stamp[aria-pressed="true"]{background:var(--bronze);color:#fff8e9;
+  border-color:var(--bronze)}
+.stamp-bar{position:absolute;left:0;right:0;bottom:0;height:44px;display:flex;
+  align-items:center;gap:12px;padding:0 16px;background:rgba(255,253,246,.92);
+  border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-2)}
+.stamp-bar .seal{margin-left:auto;font-family:var(--font-serif);font-size:12px;
+  color:#8C2F39;border:2px solid #8C2F39;border-radius:4px;padding:2px 8px;
+  transform:rotate(-4deg);opacity:0;transition:opacity .35s}
+.stamp-bar .seal.on{opacity:1}
+.stamp-bar .skip{margin-left:8px;color:var(--muted);text-decoration:underline;font-size:10.5px}
+
+/* ---------- reveal：滚动进入即显现（基础态=最终可见） ---------- */
+.reveal{opacity:1;transform:none}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    body:not(.is-reading) .reveal{
+      animation:revealIn linear both;
+      animation-timeline:view();
+      animation-range:entry 0% entry 45%;
+    }
+    @keyframes revealIn{from{opacity:.82;transform:translateY(10px)}to{opacity:1;transform:none}}
+  }
+}
+
+/* ---------- 速览模式 / 减少动效：取消 pin、全部展开 ---------- */
+body.is-reading .scene-pin,
+body.is-reading .scene-h{height:auto}
+body.is-reading .scene-pin .scene-sticky,
+body.is-reading .scene-h .scene-sticky{position:static;height:auto;display:block;overflow:visible}
+body.is-reading .scene-pin .card-macro,
+body.is-reading .scene-h .chain-map .map-card{position:static;height:auto}
+body.is-reading .scene-pin .card-macro .map{height:460px;flex:none}
+body.is-reading .scene-h .chain-track-wrap{height:auto;overflow-x:auto;padding-bottom:16px}
+body.is-reading .chain-track{transform:none !important}
+body.is-reading .track-card{opacity:1;transform:none}
+body.is-reading .macro-step{opacity:1}
+body.is-reading .story-hud,body.is-reading .story-axis{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  .scene-pin,.scene-h{height:auto}
+  /* v3.6 修复 B6:reduce 下保留 45/55 两栏(不再退化为全宽地图压站列) */
+  .scene-h .scene-sticky{position:static;height:auto;display:grid;
+    grid-template-columns:45fr 55fr;gap:14px;overflow:visible}
+  .scene-pin .scene-sticky{position:static;height:auto;display:block;overflow:visible}
+  .scene-pin .card-macro,.scene-h .chain-map .map-card{position:static;height:auto}
+  .scene-pin .card-macro .map{height:460px;flex:none}
+  .scene-h .chain-track-wrap{height:auto;overflow-x:auto}
+  .chain-track{transform:none !important}
+  .track-card{opacity:1;transform:none}
+  .macro-step{opacity:1}
+  .story-hud,.story-axis{display:none}
+}
+
+/* ---------- 移动端（≤900）：取消 pin ---------- */
+@media (max-width:900px){
+  .scene-pin,.scene-h{height:auto}
+  .scene-pin .scene-sticky,.scene-h .scene-sticky{position:static;height:auto;display:block;overflow:visible}
+  .scene-pin .card-macro,.scene-h .chain-map .map-card{position:static;height:auto}
+  .scene-pin .card-macro .map{flex:none;height:64vh}
+  .scene-h .chain-map .map{flex:none;height:56vh}
+  .scene-h .chain-track-wrap{height:auto;overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;padding-bottom:14px}
+  .chain-track{transform:none !important;gap:10px}
+  .track-card{scroll-snap-align:center;flex:0 0 78vw}
+  .stamp-bar{position:static;background:none;border:0;height:auto;padding:10px 16px 0}
+  .macro-year{font-size:12px;right:10px;bottom:40px}
+  .macro-year b{font-size:15px}
+}
+
+/* ---------- 打印：隐藏 HUD / 轴，取消 pin ---------- */
+@media print{
+  .story-hud,.story-axis,.motion-toggle{display:none !important}
+  /* v3.6.6:站卡字号升级仅限屏显——打印维持 v3.6.5 尺寸,否则打印 11→12 页(pc2 实测) */
+  .track-card .tc-no{font-size:12px}
+  .track-card h4{font-size:16px}
+  .track-card .tc-year{font-size:11.5px}
+  .track-card .tc-note{font-size:11.5px;line-height:1.7}
+  .track-card .tc-dist{font-size:10.5px}
+  .track-card .tc-stamp{font-size:11.5px;padding:5px 10px}
+  .chain-track-wrap{padding-top:16px}
+  .scene-pin,.scene-h{height:auto !important}
+  .scene-pin .scene-sticky,.scene-h .scene-sticky{position:static !important;
+    height:auto !important;display:block !important;overflow:visible !important}
+  .scene-pin .card-macro,.scene-h .chain-map .map-card{position:static !important;height:auto !important}
+  .scene-pin .card-macro .map{height:300px !important}
+  .scene-h .chain-track-wrap{height:auto !important;overflow:visible !important}
+  .chain-track{transform:none !important;flex-wrap:wrap}
+  .track-card{flex:0 0 46%;opacity:1;transform:none}
+  .stamp-bar{position:static}
+}
+
+/* ---------- 01 姓源：三步卡场景 ---------- */
+.scene-heat{height:200vh}
+.scene-heat .scene-sticky{position:sticky;top:76px;height:calc(100vh - 96px);
+  display:block;overflow:hidden}
+/* 姓源这一行原先没有列宽定义（默认单列），此处补两栏并让地图铺满右栏 */
+.scene-heat .map-row{margin:0;width:100%;height:100%;
+  grid-template-columns:340px minmax(0,1fr);align-items:stretch}
+.scene-heat .card-heat{height:100%;min-height:0;display:flex;flex-direction:column}
+.scene-heat .card-heat .map{flex:1;min-height:420px}
+.heat-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.heat-step{text-align:left;border:1px solid var(--line);background:#fdfaf3;border-radius:10px;
+  padding:10px 12px;cursor:pointer;font:inherit;opacity:.6;
+  transition:opacity .25s,border-color .25s,box-shadow .25s}
+.heat-step em{display:block;font-style:normal;font-size:10.5px;letter-spacing:.22em;
+  color:var(--bronze);margin-bottom:2px}
+.heat-step b{display:block;font-family:var(--font-serif);font-size:14.5px;color:var(--ink)}
+.heat-step span{display:block;font-size:11.5px;color:var(--ink-2);line-height:1.65;margin-top:2px}
+.heat-step:hover{border-color:var(--gold)}
+.heat-step.on{opacity:1;border-color:var(--bronze);background:#fff8e9;
+  box-shadow:0 6px 18px rgba(138,90,43,.1)}
+@media (max-width:900px){
+  .scene-heat{height:auto}
+  .scene-heat .scene-sticky{position:static;height:auto;display:block;overflow:visible}
+  .scene-heat .map-row{grid-template-columns:1fr;height:auto}
+  .scene-heat .card-heat{height:auto}
+  .scene-heat .card-heat .map{height:60vh;min-height:360px;flex:none}
+}
+@media (prefers-reduced-motion:reduce), print{
+  .scene-heat{height:auto}
+  .scene-heat .scene-sticky{position:static;height:auto;display:block}
+  .heat-step{opacity:1}
+}
+body.is-reading .scene-heat{height:auto}
+body.is-reading .scene-heat .scene-sticky{position:static;height:auto;display:block}
+body.is-reading .heat-step{opacity:1}
+
+/* ---------- 02 图谱聚光：hover 其余降透明 ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .mig-band .mig-card{transition:opacity .25s,transform .25s,border-color .25s}
+  .mig-band .mig-grid:hover .mig-card{opacity:.55}
+  .mig-band .mig-grid .mig-card:hover{opacity:1;transform:translateY(-2px);border-color:rgba(255,210,122,.5)}
+}
+
+/* ---------- 06 字辈点灯 ---------- */
+.zb-cell{transition:background .35s,color .35s,box-shadow .35s}
+.zibei-bar.lit .zb-cell{animation:zbLit .5s ease both;animation-delay:var(--zb-delay,0s)}
+@keyframes zbLit{from{background:#efe6d3;color:#a89b86}to{background:#8a5a2b;color:#fff8e9}}
+@media (prefers-reduced-motion:reduce){ .zibei-bar.lit .zb-cell{animation:none} }
+body.is-reading .zibei-bar.lit .zb-cell{animation:none}
+
+/* 04 横向场景内隐藏进度轴（避免遮挡路引卡） */
+body.no-axis .story-axis{opacity:0;pointer-events:none;transition:opacity .25s}
+
+/* ---------- 03 附：图例 + 名人堂（场景外） ---------- */
+.route-extras{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 4px}
+.route-extras .panel,.route-extras .stats-details{margin:0}
+@media (max-width:900px){ .route-extras{grid-template-columns:1fr} }
+
+/* 03 左栏压缩：读图两行截断、阶段说明三行截断，保证 800px 视口不裁切 */
+.macro-step p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:11px}
+.macro-step h4{font-size:12.5px}
+.scene-pin #stageDesc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:11.5px;margin:4px 0 6px}
+.scene-pin .stage-now{font-size:12px}
+.scene-pin .panel{padding:8px 10px}
+.scene-pin .panel h3{font-size:12.5px;margin-bottom:4px}
+.scene-pin .year-ruler .yr-ticks{font-size:8px}
+.macro-tools{margin:6px 0 0;font-size:11.5px;color:var(--muted)}
+.macro-tools summary{cursor:pointer;color:var(--bronze);font-size:11px}
+.macro-tools .timeline{margin-top:6px}
+.macro-tools .timeline button{font-size:11px;padding:2px 8px}
+/* 年表尺标题里的年份加强 */
+.year-ruler #yrNow{font-weight:700;color:var(--bronze);font-variant-numeric:tabular-nums}
+
+/* 04 地图高度保障（P0-3） */
+.scene-h .chain-map{height:calc(100vh - 96px);min-height:420px}
+.scene-h .chain-map .map-card{height:100%;min-height:0}
+.scene-h .chain-map .map{flex:1 1 auto;min-height:360px}
+
+/* 04 旧清单折叠 */
+.chain-rest{margin:14px 0 4px;border:1px solid var(--line);border-radius:10px;
+  background:#fbf7ee;padding:0 14px}
+.chain-rest>summary{cursor:pointer;padding:10px 0;font-size:13px;color:var(--bronze);
+  font-family:var(--font-serif)}
+.chain-rest .map-row{margin:0 0 12px}
+.stamp-bar #stampHint{color:var(--bronze);font-size:11px}
+
+/* v2.1：手机上隐藏 HUD，减少对首屏与面板的遮挡 */
+@media (max-width:640px){ .story-hud{display:none} }
+
+/* HUD 仅在 03/04 场景显示 */
+.story-hud.on{opacity:1;visibility:visible}
+
+/* ============================================================
+ * 场景 05：双洲下潜（纵向阶梯 + 深度尺 + 光圈收束）
+ * 与 04 的横向路引区分：不横移，逐级放大、光圈收缩
+ * ============================================================ */
+.scene-dive{height:300vh}
+.scene-dive .scene-sticky{position:sticky;top:76px;height:calc(100vh - 96px);
+  display:block;overflow:hidden}
+.scene-dive .map-row{grid-template-columns:340px minmax(0,1fr);margin:0;width:100%;height:100%;align-items:stretch}
+.scene-dive .dive-col{height:100%;display:flex;flex-direction:column;gap:10px;min-height:0}
+.dive-steps{display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;justify-content:center}
+.dive-step{position:relative;border-left:2px solid var(--line);padding:8px 10px 8px 12px;
+  opacity:.34;transition:opacity .35s,transform .35s,border-color .35s}
+.dive-step h4{margin:0 0 2px;font-size:13.5px;font-family:var(--font-serif);color:var(--ink)}
+.dive-step p{margin:0;font-size:11px;line-height:1.6;color:var(--ink-2);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dive-step .ds-no{display:block;font-size:9.5px;letter-spacing:.22em;color:var(--bronze);margin-bottom:1px}
+.dive-step .ds-depth{display:none;font-size:9.5px;color:var(--muted)}
+.dive-step.on{opacity:1;border-left-color:var(--bronze);transform:translateX(2px)}
+.dive-step.on .ds-depth{display:inline-block;margin-top:3px}
+
+/* 深度尺 */
+.dive-meter{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--muted);flex:none}
+.dive-meter .dm-track{position:relative;flex:1;height:3px;background:var(--line);border-radius:2px}
+.dive-meter .dm-track i{position:absolute;left:0;top:-2px;width:14px;height:7px;border-radius:3px;
+  background:var(--bronze);transform:translateY(0)}
+.dive-meter #diveScale{color:var(--bronze);font-variant-numeric:tabular-nums;min-width:76px;text-align:right}
+
+/* 地图卡与光圈 */
+.scene-dive .card-micro{height:100%;display:flex;flex-direction:column;position:relative;min-height:0}
+.scene-dive .card-micro .map{flex:1 1 auto;min-height:380px}
+.dive-lens{position:absolute;left:0;right:0;top:0;bottom:34px;pointer-events:none;z-index:900;
+  --lens:72%;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(255,255,255,0) 0 var(--lens),
+      rgba(200,161,101,.55) calc(var(--lens) + .15%), rgba(200,161,101,0) calc(var(--lens) + .6%)),
+    radial-gradient(circle at 50% 52%, rgba(255,255,255,0) 0 var(--lens),
+      rgba(33,27,20,.16) 92%, rgba(33,27,20,.24) 100%);
+}
+
+@media (max-width:900px){
+  .scene-dive{height:auto}
+  .scene-dive .scene-sticky{position:static;height:auto;display:block;overflow:visible}
+  .scene-dive .map-row{grid-template-columns:1fr;height:auto;gap:10px}
+  .scene-dive .card-micro{height:auto;order:-1}
+  .scene-dive .card-micro .map{height:58vh;min-height:340px;flex:none}
+  .dive-lens{display:none}
+  .dive-steps{justify-content:flex-start;gap:6px}
+  .dive-step{opacity:1;border-left-width:2px}
+  .dive-meter{display:none}
+}
+@media (prefers-reduced-motion:reduce), print{
+  .scene-dive{height:auto}
+  .scene-dive .scene-sticky{position:static;height:auto;display:block;overflow:visible}
+  .scene-dive .card-micro{height:auto}
+  .scene-dive .card-micro .map{height:420px;flex:none}
+  .dive-step{opacity:1}
+  .dive-lens{display:none}
+}
+body.is-reading .scene-dive{height:auto}
+body.is-reading .scene-dive .scene-sticky{position:static;height:auto;display:block}
+body.is-reading .scene-dive .card-micro{height:auto}
+body.is-reading .scene-dive .card-micro .map{height:440px;flex:none}
+body.is-reading .dive-step{opacity:1}
+body.is-reading .dive-lens{display:none}
+
+/* 05 附：世系树/村落/八景（场景外） */
+.micro-extras{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0 4px}
+.micro-extras>.panel-col{display:contents}
+.micro-extras .panel{margin:0}
+@media (max-width:1100px){ .micro-extras{grid-template-columns:1fr 1fr} }
+@media (max-width:900px){ .micro-extras{grid-template-columns:1fr} }
+
+/* ===== v2.7 03 模式按钮：由折叠改为可见分段控件 ===== */
+.mode-seg{display:flex;gap:6px;margin:2px 0 6px;flex-wrap:wrap}
+.mode-seg button{
+  flex:1 1 auto;border:1px solid var(--line);background:#fff;border-radius:7px;
+  padding:7px 10px;font-family:inherit;font-size:12px;color:#3d372d;cursor:pointer;transition:.15s;
+}
+.mode-seg button:hover{border-color:var(--accent2)}
+.mode-seg button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.mode-note{margin:0 0 8px;font-size:11px;line-height:1.6;color:var(--muted)}
+@media print{ .mode-seg,.mode-note{display:none} }

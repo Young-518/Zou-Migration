@@ -1,0 +1,242 @@
+/* ============================================================
+ * css/showcase.css —— 方向单 showcase 蓝图（第 11 项）
+ * 03 全国路线：左方图 / 右文（标签页 + 大标题 + 34ch 说明 + 两个动作格）
+ * 只改版式，不动 scroll-story 的阶段映射与钉住高度。
+ * ============================================================ */
+#sceneMacro .map-row.row-macro{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  align-items:stretch;
+}
+/* 左：方图（地图即这一页的图版） */
+#sceneMacro .card-macro{order:1;margin:0;height:100%;display:flex;flex-direction:column}
+#sceneMacro .card-macro .map{flex:1 1 auto;min-height:0}
+#sceneMacro .card-macro .card-title{padding:0 0 8px}
+
+/* 右：一列三段——标签、标题+说明、动作 */
+#sceneMacro .panel-col{
+  order:2;height:100%;display:flex;flex-direction:column;
+  justify-content:space-between;padding-left:44px;min-width:0;
+}
+/* 四步变成纯文字标签页（不再淡化，用重量与朱砂区分当前项） */
+#sceneMacro .macro-steps{
+  display:flex;flex-direction:row;flex-wrap:wrap;gap:22px;margin:0;
+}
+#sceneMacro .macro-step{
+  border:0;background:none;padding:0;opacity:1;
+}
+#sceneMacro .macro-step h4{font-size:17px;color:var(--muted);font-weight:500;margin:0}
+#sceneMacro .macro-step em{display:none}
+#sceneMacro .macro-step p{display:none}
+#sceneMacro .macro-step.on h4{color:var(--accent);font-weight:600}
+
+/* 中段：当前阶段名当大标题，说明压到 34ch */
+#sceneMacro .panel{background:none;padding:0;margin:0}
+#sceneMacro .panel > h3{display:none}
+#sceneMacro .stage-now{
+  font-family:var(--font-display);font-size:clamp(28px,3vw,40px);line-height:1.2;
+  margin:0 0 18px;color:var(--ink);
+}
+#sceneMacro .stage-now .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:10px}
+#sceneMacro .stage-now .era{display:block;font-size:15px;color:var(--muted);margin-top:6px;font-family:var(--font-text)}
+#sceneMacro .stage-desc{font-size:16px;line-height:1.62;color:var(--ink-soft);max-width:34ch;margin:0}
+
+/* 下段：模式与滑杆合成两个动作格 */
+#sceneMacro .mode-seg{margin:0 0 12px;gap:0;display:grid;grid-template-columns:1fr 1fr}
+#sceneMacro .mode-seg button{
+  padding:16px 12px;font-size:15px;border:0;background:var(--ink);color:var(--paper);
+}
+#sceneMacro .mode-seg button + button{background:var(--paper-2);color:var(--ink)}
+#sceneMacro .mode-seg button.on{background:var(--accent);color:#fff}
+#sceneMacro .mode-note{font-size:13.5px;margin:0 0 10px}
+#sceneMacro .timeline{display:block;margin-top:10px}
+#sceneMacro #stageRange{width:100%}
+#sceneMacro #histStatus{display:none}
+
+@media (max-width:900px){
+  #sceneMacro .map-row.row-macro{grid-template-columns:1fr}
+  #sceneMacro .panel-col{padding:14px 0 0;height:auto}
+  #sceneMacro .macro-steps{gap:14px}
+  #sceneMacro .stage-now{font-size:26px}
+}
+/* 打印：还原为上下两块，避免 50/50 挤压 */
+@media print{
+  #sceneMacro .map-row.row-macro{display:block}
+  #sceneMacro .panel-col{padding:0}
+  #sceneMacro .macro-step p{display:block}
+  #sceneMacro .stage-now{font-size:14px;margin:2px 0}
+  #sceneMacro .stage-desc{font-size:9px;max-width:none}
+  #sceneMacro .mode-seg,#sceneMacro .mode-note{display:none !important}
+}
+
+/* 竖向分配：标签在顶、动作在上段、标题与说明落到下段（避免整列堆在顶部） */
+#sceneMacro .panel-col{justify-content:flex-start}
+#sceneMacro .panel{flex:1 1 auto;display:flex;flex-direction:column;justify-content:flex-start}
+#sceneMacro .stage-now{margin-top:auto}
+#sceneMacro .stage-desc{padding-bottom:6px}
+
+/* 补：让右列真正撑满钉住高度，消除下部留白 */
+#sceneMacro .map-row.row-macro{height:100%}
+#sceneMacro .panel-col{height:100%;min-height:0;display:flex;flex-direction:column}
+#sceneMacro .panel{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:space-between}
+#sceneMacro .stage-now{margin-top:0}
+
+/* 收紧竖向节奏：状态条留在动作格下方，滑杆+标题+说明作为一组压到列底 */
+#sceneMacro .panel{justify-content:flex-start}
+#sceneMacro .timeline{margin-top:auto}
+#sceneMacro .stage-now{margin-top:14px}
+
+/* 竖向分组：滑杆 + 大标题 + 说明 合成一个 flex 子项，整体吸在列底 */
+#sceneMacro .panel-stage{margin-top:auto;padding-top:12px}
+#sceneMacro .panel-stage .timeline{margin-top:0}
+#sceneMacro .stage-now{margin-top:14px}
+
+/* 彻底解决：右列改成「标签行 + 剩余高度」两行栅格，panel 不得溢出钉住容器 */
+#sceneMacro .scene-sticky{overflow:hidden}
+#sceneMacro .map-row.row-macro{height:100%;max-height:100%;overflow:hidden}
+#sceneMacro .panel-col{
+  height:100%;max-height:100%;overflow:hidden;
+  display:grid !important;grid-template-rows:auto minmax(0,1fr);
+  align-content:stretch;padding-left:44px;
+}
+#sceneMacro .macro-steps{align-self:start}
+#sceneMacro .panel{
+  min-height:0;max-height:100%;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-start;
+}
+#sceneMacro .panel-stage{
+  margin-top:auto;flex:0 0 auto;padding-top:10px;
+  display:flex;flex-direction:column;gap:8px;
+}
+#sceneMacro .panel-stage .timeline{margin:0}
+#sceneMacro .stage-now{margin:0}
+#sceneMacro .stage-desc{margin:0;padding:0}
+
+/* 填空：把四步的说明恢复为竖排条目（不是淡化，是内容），列不再空 */
+#sceneMacro .macro-steps{
+  display:flex !important;flex-direction:column !important;gap:14px !important;
+  margin:0 0 4px !important;align-self:start;
+}
+#sceneMacro .macro-step p{
+  display:block !important;
+  font-size:15px;line-height:1.55;color:var(--ink-soft);margin:4px 0 0;
+  max-width:34ch;
+}
+#sceneMacro .macro-step h4{font-size:19px;margin:0}
+#sceneMacro .macro-step{border-left:2px solid transparent;padding-left:10px}
+#sceneMacro .macro-step.on{border-left-color:var(--accent)}
+#sceneMacro .macro-step.on h4{color:var(--accent)}
+/* 下段只留动作与滑杆，标题信息已由上方条目承担 */
+#sceneMacro .stage-now{font-size:20px;font-family:var(--font-text);font-weight:600;margin:0}
+#sceneMacro .stage-now .era{display:inline;font-size:14px;margin-left:8px}
+#sceneMacro .stage-desc{display:none}
+
+/* 终解：把剩余高度均分到「动作 / 状态 / 滑杆组」三块之间，消除单一大空洞 */
+#sceneMacro .panel{justify-content:space-between}
+#sceneMacro .panel-stage{margin-top:0}
+#sceneMacro .mode-seg{margin:0}
+
+/* ============================================================
+ * v3.0 第 12 项：04 路引折成「书脊」
+ * 机制：走过的站折成 46px 朱砂书脊（竖排站名 + 纪年），当前站摊开在书架上；
+ *       滚到段末时六枚书脊 + 第七站正好铺满右栏，即「整条本支链摆在架上」。
+ * 只改 flex-basis，不动 flex 容器基准；位移由 JS 每帧实测 offsetLeft 定锚
+ * （见 js/scroll-story.js·sceneChain）。点书脊可回到该站。
+ * 回落：≤900px / 速览 / 减少动效 / 打印 —— 本段样式整体不生效，退回原路引卡。
+ * ============================================================ */
+@media screen and (min-width:901px) and (prefers-reduced-motion:no-preference){
+  body:not(.is-reading) .chain-track .track-card{
+    opacity:1;
+    background:var(--paper-2);
+    /* 七张卡等高 = 书脊与摊开的卡同高；--shelf-h 由 JS 量最高的一张写入。
+       overflow:hidden 让卡片在折的过程中按原高裁切，不因正文重排而忽高忽低 */
+    height:var(--shelf-h,auto);
+    overflow:hidden;
+    transition:background-color .34s ease,transform .3s ease,opacity .3s ease;
+  }
+  body:not(.is-reading) .chain-track .track-card.on{background:var(--paper)}
+  body:not(.is-reading) .chain-track .track-card:not(.on) h4{color:var(--ink-soft)}
+
+  /* 折脊：46px 一条，色取印泥朱砂——与「盖章」同一套语义 */
+  body:not(.is-reading) .chain-track .track-card.is-spine{
+    flex:0 0 46px;
+    height:var(--shelf-h,220px);
+    padding:16px 0 14px;
+    gap:6px;
+    align-items:center;
+    justify-content:center;
+    background:var(--accent);
+    transform:none;
+    cursor:pointer;
+  }
+  body:not(.is-reading) .chain-track .track-card.is-spine:hover{background:#b23b2c}
+  body:not(.is-reading) .chain-track .track-card.is-spine:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  body:not(.is-reading) .chain-track .track-card.is-spine > .tc-no,
+  body:not(.is-reading) .chain-track .track-card.is-spine > .tc-note,
+  body:not(.is-reading) .chain-track .track-card.is-spine > .tc-dist,
+  body:not(.is-reading) .chain-track .track-card.is-spine > .tc-stamp{display:none}
+  body:not(.is-reading) .chain-track .track-card.is-spine h4{
+    writing-mode:vertical-rl;
+    text-orientation:upright;
+    margin:0;
+    font-size:17px;
+    line-height:1.05;
+    letter-spacing:.2em;
+    color:#f7ece1;
+    font-family:var(--font-display);
+    font-weight:600;
+  }
+  body:not(.is-reading) .chain-track .track-card.is-spine .tc-year{
+    writing-mode:vertical-rl;
+    text-orientation:upright;
+    font-size:13px;
+    line-height:1.05;
+    letter-spacing:.08em;
+    color:#f0d9bd;
+    font-variant-numeric:tabular-nums;
+  }
+}
+
+/* 集章奖励卡：原先接在满高的 .chain-track 之后，一滚到底就被 overflow 裁掉；
+   改为压在盖章条之上，同时把轨道高度让出 196px，奖励卡不会盖住卡片 */
+@media screen and (min-width:901px){
+  /* 轨道高度会因奖励卡出现而变化，关掉滚动锚定，免得浏览器替我们改 scrollY */
+  body:not(.is-reading) .scene-h .scene-sticky,
+  body:not(.is-reading) .chain-track-wrap{overflow-anchor:none}
+  body:not(.is-reading) .chain-track-wrap .stamp-reward{
+    position:absolute;left:18px;right:18px;bottom:52px;margin:0;
+    max-width:640px;background:var(--paper);z-index:3;
+  }
+  body:not(.is-reading) .chain-track-wrap.has-reward .chain-track{height:calc(100% - 196px)}
+}
+
+/* v3.0 收口：390 下导航四个按钮被挤成竖排（工具/速览/目录 各折成两行）。
+   只加不换行与紧凑内距，宽度不够时隐藏品牌名——首屏标题已说明是谁。 */
+.chapnav .toggle{white-space:nowrap}
+@media screen and (max-width:560px){
+  .chapnav .inner{gap:6px}
+  .chapnav .toggle{padding:3px 7px;font-size:12.5px}
+  .chapnav .note{display:none}
+  .chapnav .brand{font-size:12px;letter-spacing:.06em}
+}
+
+/* ============================================================
+ * 平板专版（641–900）：原方案里这两处在 768 只会用到左半屏
+ * 02 图谱：导语/图注按全宽排；03 路线：四步改 2×2，动作格与滑杆撑满
+ * ============================================================ */
+@media screen and (min-width:641px) and (max-width:900px){
+  .mig-band .mig-lead{max-width:min(58ch,100%)}
+  .mig-band .mig-note{max-width:none}
+  .mig-band .mig-grid{gap:12px}
+  .mig-band .mig-q{max-width:none}
+
+  #sceneMacro .map-row.row-macro{grid-template-columns:1fr}
+  #sceneMacro .panel-col{padding-left:0;padding-top:22px;height:auto}
+  #sceneMacro .macro-steps{display:grid !important;grid-template-columns:1fr 1fr;
+    gap:18px 28px !important;width:100%;align-self:stretch}
+  #sceneMacro .macro-step p{max-width:none;font-size:15px}
+  #sceneMacro .mode-seg,#sceneMacro .panel-stage{width:100%;max-width:none}
+  #sceneMacro .panel{max-height:none;overflow:visible}
+  #sceneMacro .card-macro .map{height:52vh;min-height:300px}
+}

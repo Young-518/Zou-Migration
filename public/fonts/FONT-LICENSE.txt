@@ -1,0 +1,15 @@
+网页用字字体许可(2026-11-04)
+=============================================
+1) ae-kouzan.woff2 / head-kouzan.woff2
+   衡山毛筆フォント行書(Kouzan Mouhitu Gyosho)子集
+   书法家青柳衡山挥毫,opentype.jp 发布,免费商用(含网页嵌入)。
+   来源:https://opentype.jp/kouzanmouhitufont.htm
+2) ae-bishu2.woff2 / head-masa.woff2
+   正風毛筆字體 MasaFont 子集(衡山毛筆行書繁中補字版)
+   max32002/masafont,SIL OFL 1.1,免费商用。
+   来源:https://github.com/max32002/masafont
+3) head-xing.woff2
+   站酷志莽行书 Zhi Mang Xing 子集(简体行书)
+   Google Fonts 收录,SIL OFL 1.1,免费商用。
+   来源:https://fonts.google.com/specimen/Zhi+Mang+Xing
+4) 子集生成:zou_frontend/tools/kouzan-subset.mjs(harfbuzzjs)

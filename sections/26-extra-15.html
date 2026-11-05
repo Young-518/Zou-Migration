@@ -1,0 +1,73 @@
+<div class="micro-extras">
+ <div class="panel-col">
+ <div class="panel">
+ <h3>世系树 ↔ 地图联动（③）</h3>
+ <p class="panel-note">点击世系节点：③号地图飞行定位并弹出先祖谱注；点击③号地图名签/节点：世系树高亮对应先祖。</p>
+ <div id="treeBox"></div>
+ <details class="stats-details">
+ <summary>世代人口统计（五修谱 2018 年修 · 统计图 2026.9.9 成图）</summary>
+ <div id="chartGens" class="chart-box"></div>
+ <div id="chartXi" class="chart-box tall"></div>
+ <p class="chart-note">下图：禧字辈（第 26 世）16 支后裔人数，合计 1011 人。末两支（禧栟、禧昶）字讳按统计图辨识，如谱注另有别写请以谱为准。</p>
+ <p>据《世系全图正册》附统计图：有宗公（18 世）名下已传承至<b>39 世（5 人）</b>；其中<b>36 世 92 人、37 世 92 人、38 世 47 人</b>。22 世分<b>应明、应朋、应元</b>三大支；26 世禧字辈 16 支，禧时支 344 人、禧明支 178 人、禧选支 103 人等，合计逾千人。名讳详见全图正册分页世系图。</p>
+ <img loading="lazy" decoding="async" src="img/stats/chart1.jpg" alt="有宗公名下世系裔孙统计图">
+ <img loading="lazy" decoding="async" src="img/stats/chart2.jpg" alt="应明、应朋、应元支派世系裔孙统计图">
+ <img loading="lazy" decoding="async" src="img/stats/chart3.jpg" alt="禧字辈各支派世系裔孙统计图">
+ </details>
+ </div>
+ <div class="panel">
+ <h3>双洲 · 邹游村</h3>
+ <img class="village-photo" loading="lazy" decoding="async" src="img/stats/village_photo.jpg" alt="邹游村实景（航拍）">
+ <p class="photo-caption">邹游村实景（航拍，五修谱附图）</p>
+ <p><b>「双洲」得名</b>：《清江县志》「游家洲在城南十里，袁河自西来北折，而洲在其右，与万硕洲相望，故名双洲。」</p>
+ <p><b>「邹游」村名</b>：明正德二年，邹氏先祖有宗翁择此吉壤卜居，与游姓大族聚居一起——村名为邹、游两姓合称。</p>
+ <div class="metric" id="villageMetric"></div>
+ </div>
+
+ <div class="panel panel-poems">
+ <h3>双洲八景 · 古今对读</h3>
+ <p class="panel-note">清诗 8 首（罗存礼 7、陈文炳 1）、今咏 8 首，均可读全篇。<b>点景名即开诗卷</b>；鼠标停留（或键盘聚焦）可看两行预览。陈文炳《墨斗先茔》摘录本 7 句，第 2 句待纸书补。</p>
+
+ <div class="poem-mapbar">
+ <p class="poem-mapnote"><b>诗路地图</b>：八景已按 ①—⑧ 标注于上行 <b>③ 号图</b>，序号与下方景名同序，点诗点即展开该景诗卷。坐标为族人所给<b>概略范围</b>（八点散布约 1.4 × 1.9 km），待补实景图与精确坐标。</p>
+ <button class="mini-btn" id="btnPoemFit" type="button">在 ③ 号图定位八景</button>
+ <p class="poem-mapmsg" id="poemMapMsg" aria-live="polite"></p>
+ </div>
+
+ <div class="poem-grid" id="poemGrid">
+ <button class="poem-chip" type="button" data-scene="sanjian">三江远渡</button>
+ <button class="poem-chip" type="button" data-scene="raowu">绕户垂柑</button>
+ <button class="poem-chip" type="button" data-scene="huangtang">黄塘春鲤</button>
+ <button class="poem-chip" type="button" data-scene="gumiao">古庙晨钟</button>
+ <button class="poem-chip" type="button" data-scene="youzhou">游洲牧笛</button>
+ <button class="poem-chip" type="button" data-scene="zengkeng">曾坑虹桥</button>
+ <button class="poem-chip" type="button" data-scene="huacheng">花胜曲径</button>
+ <button class="poem-chip" type="button" data-scene="modou">墨斗先茔</button>
+ </div>
+
+ <div class="poem-preview" id="poemPreview" aria-live="polite">
+ <p class="pp-source">清·罗存礼《双洲八景诗》</p>
+ <p class="pp-line">村前村后映清流，无限风光与目谋。</p>
+ </div>
+
+ <button class="mini-btn" id="btnPoemOpen" type="button" aria-haspopup="dialog">
+ 展开诗卷 →
+ </button>
+
+ <details class="hushan-details">
+ <summary>另有一套：湖边 · 湖山八景（德卿公，1137）—— 非双洲八景</summary>
+ <ul class="hushan-list">
+ <li>东村古桂 · 桂树繁花，香满东村</li>
+ <li>西汊春涛 · 春雷水暖，鱼龙变化</li>
+ <li>荷湖香露 · 夏日荷菱，晓露清香</li>
+ <li>钟井寒泉 · 清泉长涌，莹洁如玉</li>
+ <li>松山鹤唳 · 长松碧山，夜月鹤鸣</li>
+ <li>并窟龙潜 · 龙窟幽深，月明龙吟</li>
+ <li>神祠钟韵 · 祠宇巍巍，钟鸣晓暮</li>
+ <li>芸闱书声 · 书阁芸香，诵读不辍</li>
+ </ul>
+ <p class="panel-note">这是<b>湖边</b>（德卿公一支）的八景，与上面的双洲八景不是同一套，勿混读。诗全文待旧谱影印复核；八景今地无考，暂不作地图定位。</p>
+ </details>
+ </div>
+ </div>
+ </div>

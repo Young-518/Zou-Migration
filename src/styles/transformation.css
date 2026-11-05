@@ -1,0 +1,837 @@
+/* ============================================================
+ * transformation.css —— 改造探索·样式层(独立于原站设计系统)
+ * ============================================================
+ * 依据 改造方案.md:迁路长卷(jr) + 迁徙星图(sf) + 细节层。
+ * 质量底线(impeccable craft-floor):对比度达标、阴影带偏移与虚化、
+ * 标题上距大于下距、单一 authored moment、浏览器表面主题化;
+ * 拒绝清单:无 kicker 小标签、无渐变文字、无卡片彩条。
+ * ============================================================ */
+
+/* ---------------- 迁路长卷(jr) ---------------- */
+.jr {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(36, 31, 24, 0) 55%, rgba(36, 31, 24, .06) 100%),
+    repeating-linear-gradient(43deg, rgba(36, 31, 24, .014) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-47deg, rgba(36, 31, 24, .011) 0 1px, transparent 1px 8px),
+    #f2ede1;
+  color: #241f18;
+  overflow: hidden;
+}
+.jr-iso {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .5;
+  /* 等高线意象(react-bits Topography 手法之 SVG 化):细线山形弧层 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23241f18' stroke-opacity='.05'%3E%3Cpath d='M0 260 Q200 190 420 232 T860 210 T1200 244'/%3E%3Cpath d='M0 220 Q240 150 470 196 T900 170 T1200 205'/%3E%3Cpath d='M0 180 Q280 116 520 160 T940 132 T1200 168'/%3E%3Cpath d='M0 140 Q320 84 570 124 T980 96 T1200 130'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 42%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+.jr-head {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: clamp(56px, 9vh, 110px) 20px clamp(18px, 3vh, 34px);
+}
+.jr-title {
+  font-family: var(--font-head), serif;
+  font-weight: 900;
+  font-size: clamp(34px, 5.4vw, 62px);
+  letter-spacing: .12em;
+  margin: 0 0 .35em;
+}
+.jr-sub {
+  font-size: clamp(15px, 1.7vw, 19px);
+  color: #5a5245;
+  margin: 0 0 .5em;
+}
+.jr-note {
+  font-size: clamp(11.5px, 1.2vw, 13px);
+  color: #847a68;
+  margin: 0;
+}
+.jr-stage {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  min-height: 560px;
+}
+.jr-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.jr-route-ghost {
+  fill: none;
+  stroke: rgba(36, 31, 24, .1);
+  stroke-width: 2.5;
+  stroke-dasharray: 3 7;
+}
+.jr-route {
+  fill: none;
+  stroke: #9d2f22;
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: drop-shadow(0 1px 0 rgba(157, 47, 34, .25));
+}
+.jr-dot {
+  fill: #9d2f22;
+  stroke: #f2ede1;
+  stroke-width: 2.5;
+}
+.jr-station .jr-stn {
+  font-family: var(--font-head), serif;
+  font-size: 17px;
+  font-weight: 700;
+  fill: #241f18;
+  letter-spacing: .08em;
+}
+/* 档案卡:右侧竖列,纸卡+细墨边(阴影带偏移与虚化) */
+.jr-cards {
+  position: absolute;
+  right: clamp(16px, 6vw, 90px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(360px, 78vw);
+}
+.jr-card {
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 247, 239, .94);
+  border: 1px solid rgba(36, 31, 24, .22);
+  border-radius: 4px;
+  box-shadow: 6px 10px 24px rgba(36, 31, 24, .14), 0 1px 3px rgba(36, 31, 24, .1);
+  padding: clamp(20px, 2.4vw, 30px) clamp(20px, 2.2vw, 28px);
+  visibility: hidden;
+}
+.jr-card::before {
+  /* 纸卡内衬朱丝栏意象:顶部细双线 */
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 10px;
+  height: 4px;
+  border-top: 1px solid rgba(157, 47, 34, .5);
+  border-bottom: 1px solid rgba(157, 47, 34, .28);
+}
+.jr-era {
+  display: inline-block;
+  font-size: 12.5px;
+  letter-spacing: .14em;
+  color: #9d2f22;
+  margin: 8px 0 10px;
+  font-weight: 600;
+}
+.jr-name {
+  font-family: var(--font-head), serif;
+  font-size: clamp(30px, 3.4vw, 42px);
+  font-weight: 900;
+  letter-spacing: .14em;
+  margin: 0 0 .4em;
+  line-height: 1.15;
+}
+.jr-event {
+  font-size: clamp(14px, 1.5vw, 15.5px);
+  line-height: 1.85;
+  margin: 0 0 .9em;
+  color: #38322a;
+}
+.jr-who {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 .2em;
+  color: #241f18;
+}
+.jr-src {
+  font-size: 12px;
+  color: #847a68;
+  margin: 0;
+  letter-spacing: .06em;
+}
+.jr-hint {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  font-size: 12.5px;
+  letter-spacing: .3em;
+  color: #847a68;
+  margin: 0;
+}
+/* reduced-motion 降级:长卷完整静置,卡片纵向流式 */
+.jr.jr-static .jr-stage { height: auto; min-height: 0; padding-bottom: 56px; }
+.jr.jr-static .jr-cards {
+  position: static;
+  transform: none;
+  width: min(560px, 92vw);
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+.jr.jr-static .jr-card { position: static; visibility: visible; box-shadow: 4px 8px 18px rgba(36, 31, 24, .12); }
+.jr.jr-static .jr-route { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; }
+.jr.jr-static .jr-station { opacity: 1 !important; transform: none !important; }
+@media (max-width: 860px) {
+  .jr-cards { right: 50%; transform: translate(50%, -50%); top: auto; bottom: 8vh; }
+  .jr-card { position: absolute; }
+  .jr-station .jr-stn { font-size: 14px; }
+  .jr-stage { min-height: 520px; }
+}
+
+/* ---------------- 迁徙星图(sf) ---------------- */
+.sf {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 108%, rgba(157, 47, 34, .12), rgba(157, 47, 34, 0) 52%),
+    radial-gradient(ellipse at 18% 8%, rgba(88, 106, 138, .1), rgba(88, 106, 138, 0) 46%),
+    #101418;
+  color: #e9e2d0;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+}
+.sf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sf-core {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: clamp(72px, 12vh, 140px) 20px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.sf-title {
+  font-family: var(--font-head), serif;
+  font-weight: 900;
+  font-size: clamp(32px, 5vw, 58px);
+  letter-spacing: .16em;
+  margin: 0 0 .4em;
+  color: #f4f2ec;
+}
+.sf-sub {
+  font-size: clamp(14.5px, 1.6vw, 18px);
+  color: #b5ad97;
+  margin: 0 0 clamp(28px, 4.5vh, 52px);
+}
+.sf-nums {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(12px, 2vw, 28px);
+  margin: 0 0 clamp(34px, 5.5vh, 64px);
+}
+.sf-num { border-top: 1px solid rgba(233, 226, 208, .18); padding-top: 14px; }
+.sf-num .sf-n {
+  display: block;
+  font-family: var(--font-head), serif;
+  font-weight: 900;
+  font-size: clamp(34px, 4.6vw, 60px);
+  line-height: 1;
+  color: #f4f2ec;
+  font-variant-numeric: tabular-nums;
+}
+.sf-num em {
+  font-style: normal;
+  display: block;
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: #9d2f22;
+  letter-spacing: .3em;
+  margin-top: 6px;
+}
+.sf-num i {
+  font-style: normal;
+  display: block;
+  font-size: 11.5px;
+  color: #8d8776;
+  margin-top: 8px;
+  line-height: 1.7;
+}
+.sf-verse {
+  font-family: var(--font-head), serif;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 900;
+  letter-spacing: .42em;
+  color: #f4f2ec;
+  margin: 0 0 14px;
+  text-indent: .42em;
+}
+.sf-src { font-size: 12px; color: #6d675a; margin: 0; letter-spacing: .08em; }
+.sf-labels { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.sf-star-name {
+  position: absolute;
+  transform: translate(12px, -50%);
+  font-size: 12px;
+  letter-spacing: .12em;
+  color: rgba(233, 226, 208, .62);
+  white-space: nowrap;
+}
+.sf-star-name[data-side="left"] {
+  transform: translate(calc(-100% - 12px), -50%);
+  text-align: right;
+}
+@media (max-width: 760px) {
+  .sf-nums { grid-template-columns: repeat(2, 1fr); }
+  .sf-star-name { font-size: 10.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jr-hint { display: none; }
+}
+@media print {
+  .jr-stage { height: auto; min-height: 0; padding: 24px 0; }
+  .jr-card { position: static; visibility: visible; margin-bottom: 12px; box-shadow: none; }
+  .jr-cards { position: static; transform: none; width: 100%; display: grid; gap: 12px; }
+  .jr-hint, .sf-canvas, .sf-labels { display: none; }
+  .sf { min-height: auto; background: #fff; color: #241f18; }
+  .sf-num .sf-n, .sf-title, .sf-verse { color: #241f18; }
+}
+
+/* ---------------- 细节层(impeccable browser surfaces) ---------------- */
+/* 朱砂选区:全站统一,纸色字保证 ≥4.5:1 */
+::selection { background: #9d2f22; color: #f4f2ec; }
+/* 滚动条:纸轨细墨滑块(WebKit 系;Firefox 走 scrollbar-color) */
+html { scrollbar-color: rgba(157, 47, 34, .55) rgba(36, 31, 24, .06); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: rgba(36, 31, 24, .05); }
+::-webkit-scrollbar-thumb {
+  background: rgba(157, 47, 34, .5);
+  border-radius: 5px;
+  border: 2px solid rgba(36, 31, 24, .05);
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(157, 47, 34, .72); }
+/* 键盘焦点环:朱砂双线,不吃进圆角 */
+:focus-visible {
+  outline: 2px solid #9d2f22;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+
+/* ================= 三期:墨晕层(保留) + 控件全量重皮(补全清单·全 !important) ================= */
+
+/* ---------- 全页墨晕层(useInkFlow:指针交互水墨流体) ---------- */
+#inkFlow {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;               /* veil(9999) 之下、页面内容之上:开场印幕不被墨晕干扰 */
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: .85;
+}
+@media print { #inkFlow { display: none; } }
+
+/* ---------- 控件重皮:朱砂印章 × 宣纸(全站控件清单,全 !important 压过 design.css) ----------
+ * 类名来源:sections 静态 HTML + islands + design.css cursor 控件全量盘点:
+ * 按钮 .seg-btn .mini-btn .heat-step .mig-play .mig-step .mig-chip .hb-play .hb-cta
+ *      .veil-skip .fs-btn .hero-btn .buf-btn .pd-tab .poem-chip .lg-chip .tag-chip
+ *      .dive-step .macro-step .ch-tab .motion-toggle .bridge-switch .btn-link .srcband-link
+ * 导航 .mf-tab .chapnav .chapnav a .notable-card
+ * 地图 .leaflet-bar a .leaflet-control-zoom-in .leaflet-control-zoom-out .leaflet-control-attribution
+ * 开关 .switchline input[type=checkbox] input[id^=bk]
+ * 面板 .panel .bottom-wide.panel
+ * 滑杆 input[type=range] */
+.seg-btn, .mini-btn, .heat-step, .mig-play, .mig-step, .mig-chip, .hb-play, .hb-cta,
+.veil-skip, .fs-btn, .hero-btn, .buf-btn, .pd-tab, .poem-chip, .lg-chip, .tag-chip,
+.dive-step, .macro-step, .ch-tab, .motion-toggle, .bridge-switch, .btn-link, .srcband-link,
+.mf-tab, .notable-card, .leaflet-bar a, .leaflet-control-attribution {
+  background: rgba(250, 247, 239, .94) !important;
+  color: #241f18 !important;
+  border: 1px solid rgba(36, 31, 24, .34) !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 3px 8px rgba(36, 31, 24, .12) !important;
+  text-decoration: none !important;
+  transition: border-color .25s ease, background .25s ease, color .25s ease, transform .2s ease, box-shadow .25s ease !important;
+}
+.seg-btn:hover, .mini-btn:hover, .heat-step:hover, .mig-play:hover, .mig-step:hover,
+.mig-chip:hover, .pd-tab:hover, .poem-chip:hover, .lg-chip:hover, .tag-chip:hover,
+.dive-step:hover, .macro-step:hover, .ch-tab:hover, .motion-toggle:hover,
+.bridge-switch:hover, .btn-link:hover, .srcband-link:hover, .mf-tab:hover,
+.notable-card:hover, .leaflet-bar a:hover, .fs-btn:hover, .hero-btn:hover, .buf-btn:hover,
+.hb-play:hover, .hb-cta:hover, .veil-skip:hover {
+  border-color: #9d2f22 !important;
+  color: #9d2f22 !important;
+  background: rgba(250, 247, 239, 1) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 3px 5px 12px rgba(157, 47, 34, .2) !important;
+}
+/* 选中/激活态:朱砂印面(白字压印) */
+.seg-btn.on, .pd-tab.on, .heat-step.on, .mig-step.on, .dive-step.on, .macro-step.on,
+.ch-tab.on, .motion-toggle.on, .bridge-switch.on, .lg-chip.on, .tag-chip.on, .mf-tab.on,
+.poem-chip.on, .mig-chip.on {
+  background: #9d2f22 !important;
+  color: #f4f2ec !important;
+  border-color: #9d2f22 !important;
+  box-shadow: inset 0 1px 3px rgba(36, 31, 24, .3) !important;
+}
+.seg-btn:active, .mini-btn:active, .heat-step:active, .mig-play:active, .mig-step:active,
+.dive-step:active, .macro-step:active, .ch-tab:active, .bridge-switch:active,
+.pd-tab:active, .poem-chip:active, .leaflet-bar a:active {
+  transform: translateY(1px) !important;
+}
+/* 章节导航条(chapnav)与诗词签群容器:宣纸带 */
+.chapnav, .seg-row, .mig-chip-row, .pd-tabs {
+  background: rgba(250, 247, 239, .8) !important;
+  border-color: rgba(36, 31, 24, .2) !important;
+}
+/* 图层面板/底图开关:朱砂印章式 checkbox */
+.switchline input[type="checkbox"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 34px !important;
+  height: 20px !important;
+  margin: 0 6px 0 0 !important;
+  border-radius: 3px !important;
+  border: 1px solid rgba(36, 31, 24, .45) !important;
+  background: rgba(250, 247, 239, .95) !important;
+  position: relative !important;
+  cursor: pointer !important;
+  vertical-align: -5px !important;
+  box-shadow: none !important;
+  transition: background .25s ease, border-color .25s ease !important;
+}
+.switchline input[type="checkbox"]::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 2px !important;
+  top: 2px !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 2px !important;
+  background: rgba(36, 31, 24, .55) !important;
+  transition: transform .25s cubic-bezier(.4, 0, .2, 1), background .25s ease !important;
+}
+.switchline input[type="checkbox"]:checked {
+  background: #9d2f22 !important;
+  border-color: #9d2f22 !important;
+}
+.switchline input[type="checkbox"]:checked::after {
+  transform: translateX(14px) !important;
+  background: #f4f2ec !important;
+}
+.switchline input[type="checkbox"]:focus-visible {
+  outline: 2px solid #9d2f22 !important;
+  outline-offset: 2px !important;
+}
+/* 底图四印(bk*)同款勾选章 */
+input[type="checkbox"][id^="bk"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  border: 1px solid rgba(36, 31, 24, .5) !important;
+  border-radius: 3px !important;
+  background: rgba(250, 247, 239, .95) !important;
+  position: relative !important;
+  cursor: pointer !important;
+  vertical-align: -4px !important;
+  margin-right: 4px !important;
+  transition: background .22s ease, border-color .22s ease !important;
+}
+input[type="checkbox"][id^="bk"]:checked {
+  background: #9d2f22 !important;
+  border-color: #9d2f22 !important;
+}
+input[type="checkbox"][id^="bk"]::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 5px !important;
+  top: 1.5px !important;
+  width: 5px !important;
+  height: 9px !important;
+  border: solid #f4f2ec !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: rotate(42deg) scale(0) !important;
+  transition: transform .2s ease !important;
+}
+input[type="checkbox"][id^="bk"]:checked::after {
+  transform: rotate(42deg) scale(1) !important;
+}
+/* 面板容器:宣纸卡 */
+.panel, .bottom-wide.panel, .pd-sheet, .layer-panel {
+  background: rgba(250, 247, 239, .96) !important;
+  border: 1px solid rgba(36, 31, 24, .22) !important;
+  box-shadow: 5px 8px 20px rgba(36, 31, 24, .14) !important;
+}
+/* 滑杆:卷轴把手 */
+input[type="range"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  height: 4px !important;
+  border-radius: 2px !important;
+  background: rgba(36, 31, 24, .3) !important;
+  outline: none !important;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  background: #9d2f22 !important;
+  border: 2px solid #f4f2ec !important;
+  box-shadow: 1px 2px 6px rgba(157, 47, 34, .4) !important;
+  cursor: grab !important;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  background: #9d2f22 !important;
+  border: 2px solid #f4f2ec !important;
+  cursor: grab !important;
+}
+/* 下拉/输入框:宣纸墨边 */
+select, input[type="text"], input[type="search"], input[type="number"] {
+  background: rgba(250, 247, 239, .95) !important;
+  color: #241f18 !important;
+  border: 1px solid rgba(36, 31, 24, .35) !important;
+  border-radius: 4px !important;
+}
+select:focus, input[type="text"]:focus, input[type="search"]:focus, input[type="number"]:focus {
+  border-color: #9d2f22 !important;
+  outline: none !important;
+}
+@media print {
+  .leaflet-bar, .leaflet-control-attribution { box-shadow: none !important; }
+}
+
+/* ================= 四期:全站书法标题族(衡山行书→志莽行书→MasaFont 三层同族栈) ================= */
+/* 「概括性文字与短句标题」应用书法字体;三层 font stack 逐字回退(子集见 tools/kouzan-subset.mjs):
+ *   衡山毛筆行書原版(繁/JIS,真书法) → 志莽行书(简体,Google Fonts OFL) → MasaFont(繁中补字) → Noto Sans SC 兜底 */
+@font-face {
+  font-family: 'Cal Kouzan';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/head-kouzan.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Cal Xing';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/head-xing.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Cal Masa';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/head-masa.woff2) format('woff2');
+}
+:root {
+  --font-cal: 'Cal Kouzan', 'Cal Xing', 'Cal Masa', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+}
+/* 应用面:标题/短句/概括文字(行书无字重轴,font-weight 降回 500 防合成加粗破坏笔触) */
+h1, h2, h3,
+.reel-title, .reel-sub,
+.mf-line, .mf-sub,
+.jr-title, .jr-name, .jr-sub,
+.sf-title, .sf-sub, .sf-verse, .sf-num .sf-n,
+.sec-head h2, .pl-head h2,
+.pt-cap, .mf-tab span, .jr-station .jr-stn,
+.pop .pt, .panel-title {
+  font-family: var(--font-cal) !important;
+  font-weight: 500 !important;
+}
+/* 书法字形视觉偏瘦,标题字号微补偿(约 +6%),行书笔势留白 */
+h1 { font-size: 1.06em; }
+.sec-head h2, .pl-head h2 { font-size: 1.08em; letter-spacing: .06em; }
+.jr-title, .sf-title { letter-spacing: .14em; }
+/* 大数字(星图 CountUp)保持 tabular-nums 的同时换行书体 */
+.sf-num .sf-n { font-weight: 400 !important; }
+
+/* ================= 五期:迁徙路线弧线化 + 蚂蚁流线(ant-path 同款视觉) ================= */
+/* 形状:两点凸弧(tools 内 runtime.ts arcPoints 贝塞尔采样,相邻段方向交替错落);
+ * 动效:ant-path 式双层——虚线段沿弧流动(dashOffset)+光晕呼吸。flowline 类名保留
+ * (宏图时间线显隐契约),antdash 只增强动画形态。 */
+.leaflet-interactive path.antdash,
+path.antdash {
+  stroke-linecap: round;
+  animation: dashmove 1s linear infinite, antpulse 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+@keyframes antpulse {
+  0%, 100% { filter: drop-shadow(0 0 2px currentColor); }
+  50%      { filter: drop-shadow(0 0 6px currentColor); }
+}
+@media (prefers-reduced-motion: reduce) {
+  path.antdash { animation: none; }
+  .mv-arrow { display: none; }
+}
+
+/* ================= 六期:彗尾飞线(ECharts 迁徙图式,用户参考图样式) ================= */
+/* 形状:弧线分段透明度/线宽渐变(彗星拖尾,runtime.ts comet 模式);
+ * 光点:沿线行进的发光点(mv-arrow 复用 rAF 循环,样式升级为辉光光点) */
+path.cometseg { stroke-linecap: round; }
+path.cometseg.comet-on { filter: drop-shadow(0 0 4px rgba(184, 145, 42, .55)); }
+.mv-arrow {
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+  font-size: 12px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(255, 224, 138, .98) 0%, rgba(255, 176, 61, .85) 45%, rgba(255, 140, 40, 0) 74%) !important;
+  box-shadow: 0 0 9px 2px rgba(255, 186, 84, .78), 0 0 22px 6px rgba(255, 150, 50, .3) !important;
+  text-shadow: 0 0 4px rgba(120, 62, 10, .9) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mv-arrow { box-shadow: none !important; }
+}
+
+/* ================= 六期:彗尾飞线(ECharts 迁徙图式,用户参考图样式) ================= */
+/* 形状:弧线分段透明度/线宽渐变(彗星拖尾,runtime.ts comet 模式);
+ * 光点:沿线行进的发光点(mv-arrow 复用 rAF 循环,样式升级为辉光光点) */
+path.cometseg { stroke-linecap: round; }
+path.cometseg.comet-on { filter: drop-shadow(0 0 4px rgba(184, 145, 42, .55)); }
+.mv-arrow {
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+  font-size: 12px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(255, 224, 138, .98) 0%, rgba(255, 176, 61, .85) 45%, rgba(255, 140, 40, 0) 74%) !important;
+  box-shadow: 0 0 9px 2px rgba(255, 186, 84, .78), 0 0 22px 6px rgba(255, 150, 50, .3) !important;
+  text-shadow: 0 0 4px rgba(120, 62, 10, .9) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mv-arrow { box-shadow: none !important; }
+}
+
+/* ================= 七期:暗夜星图模式(参考高德迁徙图,路线考专属) ================= */
+/* #mapMacro.nightfly:黑幕隐瓦片,canvas 双层(静态省界星野层+粒子光流层)叠于其上 */
+#mapMacro.nightfly { background: #04060c !important; }
+#mapMacro.nightfly .leaflet-tile-pane { opacity: 0; }
+#mapMacro.nightfly .leaflet-container { background: #04060c; }
+.nightfly-static, .nightfly-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 410;               /* overlayPane 400 之上、chainPane 405 之上,低于交互弹出 */
+}
+.nightfly-static { z-index: 385; }   /* 省界星野垫在迁徙点(400)之下 */
+#mapMacro.nightfly .rt-arrow { text-shadow: 0 0 6px rgba(255, 200, 100, .9); }
+
+/* ================= 八期:路线考章重排(时间轴 HUD 收拢地图下方 + 暗夜场景联动) ================= */
+/* HUD:时间轴/模式/状态收拢到地图卡内底部,替代原左栏深埋面板 */
+.card-macro .map-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px 12px;
+  border-top: 1px solid rgba(36, 31, 24, .18);
+  background: rgba(250, 247, 239, .6);
+}
+.card-macro .map-hud .hud-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.card-macro .map-hud .metric { flex: 1 1 auto; min-width: 0; font-size: 12px; }
+.card-macro .map-hud .timeline { display: flex; align-items: center; gap: 12px; }
+.card-macro .map-hud .timeline input[type="range"] { flex: 1 1 auto; }
+.card-macro .map-hud .stage-now {
+  font-family: var(--font-cal), var(--font-head), sans-serif;
+  font-size: 17px;
+  color: #9d2f22;
+  white-space: nowrap;
+}
+.card-macro .map-hud .stage-desc { margin: 0; font-size: 12.5px; color: #5a5245; line-height: 1.7; }
+/* 模式段按钮纳入控件重皮 */
+.mode-seg { display: inline-flex; gap: 6px; }
+.mode-seg button {
+  background: rgba(250, 247, 239, .94) !important;
+  color: #241f18 !important;
+  border: 1px solid rgba(36, 31, 24, .34) !important;
+  border-radius: 4px !important;
+  padding: 4px 10px;
+  font-size: 12.5px;
+  cursor: pointer;
+  box-shadow: 2px 3px 8px rgba(36, 31, 24, .1) !important;
+  transition: border-color .25s ease, background .25s ease, color .25s ease !important;
+}
+.mode-seg button:hover { border-color: #9d2f22 !important; color: #9d2f22 !important; }
+.mode-seg button.on, .mode-seg button[aria-pressed="true"] {
+  background: #9d2f22 !important;
+  color: #f4f2ec !important;
+  border-color: #9d2f22 !important;
+}
+/* 暗夜场景联动:路线考整章转暗卡,时间轴条发光 */
+#sceneMacro.nightfly-scene .panel-col .macro-step,
+#sceneMacro.nightfly-scene .panel-col h4,
+#sceneMacro.nightfly-scene .panel-col p { color: #cfc8b6; }
+#sceneMacro.nightfly-scene .macro-step h4 em { color: #d9a441; }
+#sceneMacro.nightfly-scene .card-macro {
+  background: rgba(13, 17, 24, .92) !important;
+  border-color: rgba(64, 148, 202, .35) !important;
+}
+#sceneMacro.nightfly-scene .card-title,
+#sceneMacro.nightfly-scene .card-sub { color: #cfc8b6 !important; }
+#sceneMacro.nightfly-scene .map-hud {
+  background: rgba(10, 14, 20, .85);
+  border-top: 1px solid rgba(64, 148, 202, .3);
+}
+#sceneMacro.nightfly-scene .map-hud .stage-now { color: #ffd27d; }
+#sceneMacro.nightfly-scene .map-hud .stage-desc { color: #9aa3ad; }
+#sceneMacro.nightfly-scene .map-hud .metric { color: #8fd0e8; }
+#sceneMacro.nightfly-scene .map-caption { color: #6b7684 !important; }
+#sceneMacro.nightfly-scene .mode-seg button {
+  background: rgba(20, 26, 34, .9) !important;
+  color: #cfc8b6 !important;
+  border-color: rgba(64, 148, 202, .4) !important;
+}
+#sceneMacro.nightfly-scene .mode-seg button.on,
+#sceneMacro.nightfly-scene .mode-seg button[aria-pressed="true"] {
+  background: #9d2f22 !important;
+  color: #f4f2ec !important;
+  border-color: #9d2f22 !important;
+}
+#sceneMacro.nightfly-scene .map-hud .metric b { color: #ffd27d; }
+
+/* ================= 八期:路线考章重排(时间轴 HUD 收拢地图下方 + 暗夜场景联动) ================= */
+/* HUD:时间轴/模式/状态收拢到地图卡内底部,替代原左栏深埋面板 */
+.card-macro .map-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px 12px;
+  border-top: 1px solid rgba(36, 31, 24, .18);
+  background: rgba(250, 247, 239, .6);
+}
+.card-macro .map-hud .hud-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.card-macro .map-hud .metric { flex: 1 1 auto; min-width: 0; font-size: 12px; }
+.card-macro .map-hud .timeline { display: flex; align-items: center; gap: 12px; }
+.card-macro .map-hud .timeline input[type="range"] { flex: 1 1 auto; }
+.card-macro .map-hud .stage-now {
+  font-family: var(--font-cal), var(--font-head), sans-serif;
+  font-size: 17px;
+  color: #9d2f22;
+  white-space: nowrap;
+}
+.card-macro .map-hud .stage-desc { margin: 0; font-size: 12.5px; color: #5a5245; line-height: 1.7; }
+/* 模式段按钮纳入控件重皮 */
+.mode-seg { display: inline-flex; gap: 6px; }
+.mode-seg button {
+  background: rgba(250, 247, 239, .94) !important;
+  color: #241f18 !important;
+  border: 1px solid rgba(36, 31, 24, .34) !important;
+  border-radius: 4px !important;
+  padding: 4px 10px;
+  font-size: 12.5px;
+  cursor: pointer;
+  box-shadow: 2px 3px 8px rgba(36, 31, 24, .1) !important;
+  transition: border-color .25s ease, background .25s ease, color .25s ease !important;
+}
+.mode-seg button:hover { border-color: #9d2f22 !important; color: #9d2f22 !important; }
+.mode-seg button.on, .mode-seg button[aria-pressed="true"] {
+  background: #9d2f22 !important;
+  color: #f4f2ec !important;
+  border-color: #9d2f22 !important;
+}
+/* 暗夜场景联动:路线考整章转暗卡,时间轴条发光 */
+#sceneMacro.nightfly-scene .panel-col .macro-step,
+#sceneMacro.nightfly-scene .panel-col h4,
+#sceneMacro.nightfly-scene .panel-col p { color: #cfc8b6; }
+#sceneMacro.nightfly-scene .macro-step h4 em { color: #d9a441; }
+#sceneMacro.nightfly-scene .card-macro {
+  background: rgba(13, 17, 24, .92) !important;
+  border-color: rgba(64, 148, 202, .35) !important;
+}
+#sceneMacro.nightfly-scene .card-title,
+#sceneMacro.nightfly-scene .card-sub { color: #cfc8b6 !important; }
+#sceneMacro.nightfly-scene .map-hud {
+  background: rgba(10, 14, 20, .85);
+  border-top: 1px solid rgba(64, 148, 202, .3);
+}
+#sceneMacro.nightfly-scene .map-hud .stage-now { color: #ffd27d; }
+#sceneMacro.nightfly-scene .map-hud .stage-desc { color: #9aa3ad; }
+#sceneMacro.nightfly-scene .map-hud .metric { color: #8fd0e8; }
+#sceneMacro.nightfly-scene .map-caption { color: #6b7684 !important; }
+#sceneMacro.nightfly-scene .mode-seg button {
+  background: rgba(20, 26, 34, .9) !important;
+  color: #cfc8b6 !important;
+  border-color: rgba(64, 148, 202, .4) !important;
+}
+#sceneMacro.nightfly-scene .mode-seg button.on,
+#sceneMacro.nightfly-scene .mode-seg button[aria-pressed="true"] {
+  background: #9d2f22 !important;
+  color: #f4f2ec !important;
+  border-color: #9d2f22 !important;
+}
+#sceneMacro.nightfly-scene .map-hud .metric b { color: #ffd27d; }
+
+/* ================= 八期b:图层抽屉(方案 C,分组+预设) ================= */
+.layer-drawer-wrap { z-index: 1200; }
+.ld-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(250, 247, 239, .95) !important;
+  color: #241f18 !important;
+  border: 1px solid rgba(36, 31, 24, .34) !important;
+  border-radius: 4px !important;
+  padding: 5px 12px; font-size: 13px; cursor: pointer;
+  box-shadow: 2px 3px 8px rgba(36, 31, 24, .12) !important;
+}
+.ld-btn:hover, .ld-btn.active { border-color: #9d2f22 !important; color: #9d2f22 !important; }
+.ld-host { position: absolute; top: 44px; right: 8px; bottom: 8px; z-index: 1150; pointer-events: none; }
+.layer-drawer {
+  position: absolute; top: 0; right: 0; max-height: 100%;
+  width: 250px; overflow: auto;
+  background: rgba(250, 247, 239, .97);
+  border: 1px solid rgba(36, 31, 24, .3);
+  border-radius: 6px;
+  box-shadow: 6px 10px 26px rgba(36, 31, 24, .2);
+  padding: 10px 12px 14px;
+  transform: translateX(115%);
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+  pointer-events: auto;
+}
+.layer-drawer.open { transform: translateX(0); }
+.ld-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.ld-title { font-family: var(--font-cal), var(--font-head), sans-serif; font-size: 16px; color: #9d2f22; }
+.ld-close { background: none; border: 0; font-size: 13px; cursor: pointer; color: #847a68; padding: 2px 4px; }
+.ld-presets { display: flex; align-items: center; gap: 6px; margin: 4px 0 10px; flex-wrap: wrap; }
+.ld-plabel { font-size: 11.5px; color: #847a68; letter-spacing: .1em; }
+.ld-preset {
+  background: rgba(36, 31, 24, .06) !important;
+  border: 1px solid rgba(36, 31, 24, .3) !important;
+  color: #241f18 !important;
+  border-radius: 999px; padding: 3px 12px; font-size: 12px; cursor: pointer;
+}
+.ld-preset:hover { border-color: #9d2f22 !important; color: #9d2f22 !important; }
+.ld-preset.on { background: #9d2f22 !important; color: #f4f2ec !important; border-color: #9d2f22 !important; }
+.ld-group { border-top: 1px solid rgba(36, 31, 24, .14); padding: 8px 0 4px; }
+.ld-gtitle { font-size: 12px; letter-spacing: .16em; color: #8a5a2b; margin-bottom: 4px; }
+.ld-note { font-size: 11.5px; color: #847a68; margin: 0 0 4px; line-height: 1.6; }
+/* 暗夜场景下抽屉转暗 */
+#sceneMacro.nightfly-scene .layer-drawer {
+  background: rgba(13, 17, 24, .96);
+  border-color: rgba(64, 148, 202, .35);
+}
+#sceneMacro.nightfly-scene .ld-btn {
+  background: rgba(20, 26, 34, .92) !important;
+  color: #cfc8b6 !important;
+  border-color: rgba(64, 148, 202, .4) !important;
+}
+#sceneMacro.nightfly-scene .ld-title { color: #ffd27d; }
+#sceneMacro.nightfly-scene .ld-group { border-top-color: rgba(64, 148, 202, .22); }
+#sceneMacro.nightfly-scene .ld-gtitle { color: #8fd0e8; }
+#sceneMacro.nightfly-scene .ld-note,
+#sceneMacro.nightfly-scene .ld-plabel { color: #7d8894; }
+#sceneMacro.nightfly-scene .ld-close { color: #7d8894; }
+#sceneMacro.nightfly-scene .ld-preset {
+  background: rgba(20, 26, 34, .9) !important;
+  color: #cfc8b6 !important;
+  border-color: rgba(64, 148, 202, .4) !important;
+}
+#sceneMacro.nightfly-scene .ld-preset.on { background: #9d2f22 !important; color: #f4f2ec !important; }
